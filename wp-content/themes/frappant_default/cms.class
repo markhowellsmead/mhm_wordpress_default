@@ -1,0 +1,232 @@
+<?php
+class CMS	{
+
+	// defaultwert damit css-floats cleared werden
+	var $body_classes = array('clearfix');
+
+	var $template_uri='';
+
+	var $ancestors=0;
+	var $num_ancestors=0;
+	
+	var $currentpageID=0;
+	
+	var $debugmode=false;
+
+// mobileerkennung mobile. referenzliste von mobilgeräte
+	var $useragents = array(
+		"iPhone",  			// Apple iPhone
+		"iPod", 			// Apple iPod touch
+		"iPad", 			// Apple iPad
+		"Android", 			// 1.5+ Android
+		"dream", 			// Pre 1.5 Android
+		"CUPCAKE", 			// 1.5+ Android
+		"blackberry9500",	// Storm
+		"blackberry9530",	// Storm
+		"blackberry9520",	// Storm	v2
+		"blackberry9550",	// Storm v2
+		"blackberry 9800",	// Torch
+		"webOS",			// Palm Pre Experimental
+		"incognito", 		// Other iPhone browser
+		"webmate", 			// Other iPhone browser
+		"s8000", 			// Samsung Dolphin browser
+		"bada" 			 	// Samsung Dolphin browser
+	);
+
+	public function is_mobile(){
+		//	client bei anfrage prüfen um herauszustellen ob mobile oder nicht
+		foreach ( $this->useragents as $useragent ) {
+			if ( preg_match( "#$useragent#i", $_SERVER['HTTP_USER_AGENT'] ) ) {
+				return $useragent;
+				break;
+			}
+		}
+		return false;
+	}
+
+	public function clean_menu($html){
+		//	title= attribut von menulinks entfernen
+		//	html des menüs eingeben
+		//	gibt bereinigte version zurück
+		return preg_replace('/title=\"(.*?)\"/','',$html);
+	}
+
+	public function get_language_attributes($doctype = 'html') {
+		//	sprachvariante der website herausstellen anhand lang= auf <html> tag
+		//	ist eine umgeschriebene version der wordpress-version dieser FN
+		//	gibt ergebnis zurück anstatt echo() zu machen
+		$attributes = array();
+		$output = '';
+
+		if ( function_exists( 'is_rtl' ) )
+			$attributes[] = 'dir="' . ( is_rtl() ? 'rtl' : 'ltr' ) . '"';
+
+		if ( $lang = get_bloginfo('language') ) {
+			if ( get_option('html_type') == 'text/html' || $doctype == 'html' )
+				$attributes[] = "lang=\"$lang\"";
+			if ( get_option('html_type') != 'text/html' || $doctype == 'xhtml' )
+				$attributes[] = "xml:lang=\"$lang\"";
+		}
+
+		$output = implode(' ', $attributes);
+		$output = apply_filters('language_attributes', $output);
+
+		return $output;
+	}//get_language_attributes
+
+
+	public function wrappedcontent($content,$header='',$pre='<section>',$post='</section>'){
+	//	gibt $content in einer block zurück, wenn $content nicht leer
+	//	wenn $header nicht leer, wird dieses samt <header> ins block als erste element hinzugefügt
+		if($content!=""):
+			return $pre.
+				($header!=''?'<header>' .$header. '</header>':'').
+				$content.
+			$post;
+		else:
+			return '';
+		endif;
+	}
+
+
+	public static function inherit($post,$fieldname,$godID=0){
+		//	aktuelles record in DB für inhalt prüfen
+		//	wenn immer noch leer wird parent geprüft
+		//	wenn immer noch leer wird grandparent geprüft
+		//	wenn immer noch leer und $godID gesetzt, wird wert dort her (aus gleiche DB-tabelle) lokal geholt.
+		//	gibt string zurück
+		$rVal=='';
+		
+		//	mittels «more fields» kann eine option gesetzt werden, die die ausgabe des felds immer verhindert
+		//	wenn zB $fieldname=box1, wird geprüft, ob feld «box1option» vorhanden und auf "Ja" gesetzt ist
+		if(get_post_meta($post->ID,$fieldname.'option',true)=='Ja'):
+			return '';
+		endif;
+
+		$rVal=get_post_meta($post->ID,$fieldname,true);
+
+		if($rVal==''):
+			if($post->post_parent!=0){
+				$rVal=get_post_meta($post->post_parent,$fieldname,true);
+			}
+			if($rVal==""){
+				$parent=get_post($post->post_parent);
+				$rVal=get_post_meta($parent->post_parent,$fieldname,true);
+			}
+		endif;
+		if($rVal=="" && $godID!=0){
+			$rVal=get_post_meta($godID,$fieldname,true);
+		}
+		return $rVal;
+	}
+
+
+	public function add_bodyclasses() {
+		//	fügt definierte classnamen zusammen und gibt array zurück.
+		//	wird von wp angewendet um class= auf <body> zu setzen
+		foreach($this->body_classes as $arrayValue):
+			$classes[] = $arrayValue;
+		endforeach;
+		return $classes;
+	}//add_bodyclasses
+
+
+	public function buildDepartmentDomainMenu(){
+		$hauptmenu=array();
+		foreach($this->departments as $key => $data){
+			if($data['displayinmenu']){
+				$hauptmenu[] = '<li class="menu-item page_item'.($_SERVER['HTTP_HOST']==$data['domain'] ? ' current_page_item' :'' ).'"><a href="'.$data['root_page'].'">'.$data['display_name'].'</a></li>';
+			}
+		}
+		return '<menu class="level1 nolist inline">'.implode('',$hauptmenu).'</menu>';
+	}//buildDepartmentDomainMenu
+
+
+
+	public static function page_title($atts){
+		/*
+			titel für die seite berechenen, zur anzeige in content bereich
+			$atts['wrap']		leer oder html-tags, mit | getrennt		<header></header>
+			$atts['showparent']	true oder false
+			
+		*/
+
+		if(!is_array($atts)):
+			$atts=array($atts);
+		endif;
+		global $post;
+		if(get_post_meta($post->ID,"show_titles",true)=='No'):
+			return '';
+		endif;
+
+		//	gibt es einen meta-wert namens title_alt für diese seite? wenn ja, nimm dieser, sonst der normale durch get_the_title
+		$pagetitle_regular=($title_alt=get_post_meta($post->ID,"title_alt",true))!=""?$title_alt:get_the_title($post->ID);
+
+		if($atts['wrap']!=''):
+			//	zb <header class="page_title">|</header>
+			$atts['wrap'] = explode('|',$atts['wrap']);
+		else:
+			$atts['wrap'] = array('','');
+		endif;
+
+		if(!$atts["showparent"]||$atts["showparent"]==false):
+			// gibt der titel einfach mit umfassenden tags zurück
+			$out=$atts['wrap'][0].$pagetitle_regular.$atts['wrap'][1];
+		else:
+			if($this->num_ancestors>0):
+				if($this->num_ancestors>1):
+					// seitentitel UND seitentitel von der parent-seite und grandparent-seite anzeigen
+					$pagetitle_parent=get_the_title($post->post_parent); // titel wie im menü angezeigt damit man besser navigieren kann
+
+					$page_grandparent=get_post($post->post_parent);
+					$pagetitle_grandparent=get_the_title($page_grandparent->post_parent); // titel wie im menü angezeigt damit man besser navigieren kann
+
+					$out='<p class="parent">'.($pagetitle_grandparent!=''?$pagetitle_grandparent.' » ':'').$pagetitle_parent.'</p>'
+						.$atts['wrap'][0].$pagetitle_regular.$atts['wrap'][1];
+				else:
+					// seite hat nur parent, ist also auf ebene 2 des seitenbaums
+					$pagetitle_parent = get_the_title($post->post_parent);
+					$out='<p class="parent">'.$pagetitle_parent.'</p>'
+						.$atts['wrap'][0].$pagetitle_regular.$atts['wrap'][1];
+				endif;
+
+			else:
+				//	normaler seitentitel
+				$out=$atts['wrap'][0].$pagetitle_regular.$atts['wrap'][1];
+			endif;
+		endif;
+		return $out;
+	}//page_title
+
+
+	public function dump($var,$die=false){
+		//	saubere ausgabe von variabelwerten (inkl. zb arrays, objekte)
+		//	erscheint nur, wenn debugmode auf true gesetzt ist.
+		if($this->debugmode){
+			echo '<pre>' . print_r($var,true) . '</pre>';
+			if($die):
+				die();
+			endif;
+		}
+	}//dump
+
+
+	public function addToFooter($key,$path){
+		//	registrierte funktion/action zu wp_footer hinzufügen
+		//	nur, wenn die funktion unbedingt NACH wp_head hinzugefügt werden muss
+
+		if(!$key||!$path){return;}
+
+		global $wp_scripts;
+		if(is_admin()) return;
+
+		wp_enqueue_script('frp_slider', WP_PLUGIN_URL.'/'.basename(dirname(__file__)).'/frp_slider.js', array(), '1.0', true);
+
+		if (!in_array('frp_slider', $wp_scripts->done) && !in_array('frp_slider', $wp_scripts->in_footer)) {
+			$wp_scripts->in_footer[] = 'frp_slider';
+		}
+
+	}//	addToFooter
+
+
+}

@@ -1,0 +1,44 @@
+<?php
+class THEME{
+
+	//	funktionen, die nur für dieses theme benötigt werden
+	
+	// zb
+	public static function getVideoThumbnailSRC($videoURL){
+		/*
+		*	@rev 				1.3.2011 17:48 mhm
+		*	@param 	url			'http://www.youtube.com/watch?v=Cr2_Dn0e5nU'
+		*	@return image src	'http://i.ytimg.com/vi/Cr2_Dn0e5nU/0.jpg'
+		*	@ref 				http://code.google.com/apis/youtube/2.0/developers_guide_php.html#Understanding_Feeds_and_Entries
+		*/
+
+		if($videoURL == ''){return '';}	//	angabe ohne url gibt leeres string zurück
+		$atts=array('url' => $videoURL);
+
+		$aPath = parse_url($atts['url']);
+		$aPath['host'] = str_replace('www.','',$aPath['host']);
+
+
+		switch($aPath['host']){
+			case ('youtube.com') :
+				$aParams = explode('&',$aPath['query']);
+				foreach($aParams as $param):
+					//	nach parameter 'v' suchen
+					$thisPair=explode('=',$param);
+					if(strtolower($thisPair[0])=="v"):
+						$atts['id']=$thisPair[1];
+						break;
+					endif;
+				endforeach;
+				if(!$atts['id']){return '';}	//	wenn ID nicht verfügbar, gibt leeres string zurück
+				else{return 'http://i.ytimg.com/vi/'.$atts['id'].'/0.jpg';}	//	gibt 1. thumbnail-bild-src zurück. siehe
+				break;	//	youtube.com
+
+			default:
+				//	gibt leeres string zurück
+				return '';
+				break;	//	default
+		}
+	}	// getVideoThumbnailSRC
+
+}
