@@ -1,4 +1,4 @@
-#WordPress Helper für !frappant Webfactory
+#WordPress Helpers
 
 ##Beschreibung
 Dieser Repository enthält Basisfunktionen für WordPress, inklusive eigene Plugins und Themes. Es gibt im jeweiligen Verzeichnis einen eigenen README, die du für Anleitungen anschauen solltest.
