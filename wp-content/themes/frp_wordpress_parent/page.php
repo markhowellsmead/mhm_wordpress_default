@@ -86,4 +86,6 @@ if (have_posts()):
 
 <?php
 endif;
-get_footer(); ?>
+get_sidebar();
+get_footer();
+?>

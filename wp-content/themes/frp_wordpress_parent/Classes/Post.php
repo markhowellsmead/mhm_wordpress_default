@@ -10,6 +10,9 @@ class Post {
 
 	public function __construct(&$app){
 		$this->app = $app;
+		if(is_singular() && get_option( 'thread_comments' )){
+			wp_enqueue_script( 'comment-reply' );
+		}
 	}
 
 	function get_post_meta($post_id, $key, $single=true, $filter = false, $fallback_id=0){
