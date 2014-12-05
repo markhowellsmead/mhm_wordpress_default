@@ -8,8 +8,6 @@ class App {
 		$key,
 		$version = '1.0',
 		$themeoptions = array(),
-		$viewdata = array(),
-		$blog_info = array(),
 		$paths = array();
 
 	private 
@@ -52,12 +50,12 @@ class App {
 		// functionality which is always required
 		$this->set_paths();
 		$this->set_keys();
-		$this->extend('helpers');
-		$this->extend('language');
-		$this->extend('post');
-		$this->extend('media');
-		$this->load_configuration();
-		$this->load_theme_options();
+		$this->extend('helpers');		// helper functions
+		$this->extend('language');		// load translations
+		$this->extend('view');			// setup page or post view
+		$this->extend('media');			// functions for media / image handling
+		$this->load_configuration();	// load any special configuration files if available
+		$this->load_theme_options();	// load any theme options if available
 	}
 
 	//////////////////////////////////////////////////
@@ -137,15 +135,15 @@ class App {
 
 	public function set_paths(){
 
+		// Initialize paths for the parent and child themes
 		$this->paths['parent_path']			= get_template_directory();
 		$this->paths['parent_uri']			= get_template_directory_uri();
-
 		$this->paths['child_path']			= get_stylesheet_directory();
 		$this->paths['child_uri']			= get_stylesheet_directory_uri();
 
+		// Configuraiton files and resources like images, CSS and JavaScript are stored in the child theme
 		$this->paths['resources_path']		= $this->paths['child_path'].'/Resources';
 		$this->paths['resources_uri']		= $this->paths['child_uri'].'/Resources';
-
 		$this->paths['configuration_path']	= $this->paths['child_path'].'/Configuration';
 
 	}
@@ -187,6 +185,8 @@ class App {
 	/////////////////////////////////////////////
 	
 	public function add_default_style($file='', $media='all', $filekey=''){
+		wp_enqueue_style( 'css-reset', $this->paths['parent_uri'] . '/Resources/Public/Css/css-reset.css', null, $this->version, 'all');
+		wp_enqueue_style( 'basic', $this->paths['parent_uri'] . '/Resources/Public/Css/basic.css', null, $this->version, 'all');
 		wp_enqueue_style( $this->key.'-style', get_stylesheet_uri(), null, $this->version, 'all');
 	}
 
@@ -217,7 +217,7 @@ class App {
 
 		echo '<meta property="og:type" content="blog" />
 			<meta property="og:url" content="http:// '.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']. '" />
-			<meta property="og:title" content="' .$this->blog_info['name'].'" />
+			<meta property="og:title" content="' .''. '" />
 			<meta property="og:description" content="" />';
 			
 		if(file_exists($this->paths['resources_path'].'/Images/facebook.jpg')){

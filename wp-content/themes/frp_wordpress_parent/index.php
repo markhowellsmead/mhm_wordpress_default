@@ -11,41 +11,44 @@
  *
  * @package WordPress
  * @subpackage Frp_WordPress_Parent
- * @since 2.12.2014
+ * @since v1.0
  */
 
 global $app;
+get_header();
 
-get_header(); ?>
+get_template_part( 'content', 'header' );
 
-<section class="module row content">
-
-<?php
-	if ( have_posts() ){
-
-		// Start the Loop.
-		while ( have_posts() ){
-			
-			the_post();
-
-			/*
-			 * Include the post format-specific template for the content. If you want to
-			 * use this in a child theme, then include a file called called content-___.php
-			 * (where ___ is the post format) and that will be used instead.
-			 */
-			get_template_part( 'content', get_post_format() );
-
-		}
-
-	} else {
-
-		// If no content, include the "No posts found" template.
-		get_template_part( 'content', 'none' );
-
-	}
 ?>
 
-</section>
+	<section class="module row main">
+	
+	<?php
+		if ( have_posts() ){
+	
+			// Start the Loop.
+			while ( have_posts() ){
+				
+				the_post();
+	
+				/*
+				 * Include the post format-specific template for the content. If you want to
+				 * use this in a child theme, then include a file called called content-___.php
+				 * (where ___ is the post format) and that will be used instead.
+				 */
+				get_template_part( 'content', get_post_format() );
+	
+			}
+	
+		} else {
+	
+			// If no content, include the "No posts found" template.
+			get_template_part( 'content', 'none' );
+	
+		}
+	?>
+	
+	</section>
 
 <?php
 get_sidebar();

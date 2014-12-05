@@ -1,6 +1,15 @@
 <?php
 /*
 Template Name: Redirect
+
+Assigning this template to a page will cause page requests to 
+redirect to the page defined in the custom field with the
+key “redirect”. If this value is not defined, then no redirect
+will occur and a blank page will be displayed.
+
+@package WordPress
+@subpackage Frp_WordPress_Parent
+@since v1.0
 */
 
 if (have_posts()) : while (have_posts()) : the_post();

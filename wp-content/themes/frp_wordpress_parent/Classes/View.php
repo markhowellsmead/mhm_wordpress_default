@@ -2,9 +2,10 @@
 
 namespace Frp\WordPress;
 
-class Post {
+class View {
 	
-	var $app = null;
+	var $app = null,
+		$data = array();
 
 	//////////////////////////////////////////////////
 
@@ -41,9 +42,9 @@ class Post {
 		throw new \Exception('get_post_ancestors is called but not complete');
 	
 		// add an array to the post of all ancestor IDs (top-down). The first entry is the top-level parent page.
-		if($this->viewdata['post']){
-			$this->viewdata['post']->ancestors = array_reverse(get_post_ancestors($this->viewdata['post']));
-			$this->viewdata['rootpage'] = $this->viewdata['post']->ancestors[0] ? $this->viewdata['post']->ancestors[0] : $this->viewdata['post']->ID;
+		if($this->view['post']){
+			$this->view['post']->ancestors = array_reverse(get_post_ancestors($this->view['post']));
+			$this->view['rootpage'] = $this->view['post']->ancestors[0] ? $this->view['post']->ancestors[0] : $this->view['post']->ID;
 		}
 	}
 
@@ -72,7 +73,7 @@ class Post {
 	public function get_post_slug($id=-1){
 		// get the slug of the specified (not current) post
 	    $post_data = get_post($id);
-		return $post_data->post_name; 
+		return $post_data->post_name;
 	}
 
 	//////////////////////////////////////////////////
@@ -97,50 +98,6 @@ class Post {
 			}
 		}
 		return $val;
-	}
-
-	//////////////////////////////////////////////////
-	
-	public function pageTitle($atts){
-		global $post;
-		
-		if(!is_array($atts)){
-			$atts=array($atts);
-		}
-
-		$pagetitle_regular = ($title_alt = get_post_meta($post->ID,"title_alt",true))!=="" ? $title_alt : get_the_title($post->ID);
-		
-		if(!$atts["showparent"] || $atts["showparent"]==false){
-
-			return '<h3>'.$pagetitle_regular.'</h3>';
-
-		}else{
-
-			switch(count($post->ancestors)){
-				
-				case 0:
-					$out='<h3>'.$pagetitle_regular.'</h3>';
-					break;
-				
-				case 1:
-					$pagetitle_parent = get_the_title($post->post_parent);
-					return '<h4>'.$pagetitle_parent.'</h4>'
-						.'<h3>'.$pagetitle_regular.'</h3>';
-					break;
-				
-				default;
-					$pagetitle_parent=get_the_title($post->post_parent);	//	always use menu title
-
-					$page_grandparent=get_post($post->post_parent);
-
-					$pagetitle_grandparent=get_the_title($page_grandparent->post_parent);	//	always use menu title
-
-					return '<h4>'.($pagetitle_grandparent!=''?$pagetitle_grandparent.' » ':'').$pagetitle_parent.'</h4>'
-						.'<h3>'.$pagetitle_regular.'</h3>';
-						
-					break;
-			}
-		}
 	}
 
 }

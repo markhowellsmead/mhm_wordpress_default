@@ -1,0 +1,4 @@
+html,body	{min-height:100vh}
+body		{text-align:center}
+.container	{margin:0 auto;text-align:left;min-height:100vh;position:relative}
+img			{border: 0}
