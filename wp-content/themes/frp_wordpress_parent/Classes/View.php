@@ -16,7 +16,7 @@ class View {
 		}
 	}
 
-	function get_post_meta($post_id, $key, $single=true, $filter = false, $fallback_id=0){
+	public function get_post_meta($post_id, $key, $single=true, $filter = false, $fallback_id=0){
 		/*
 			standard function to extend get_post_meta
 			if value on $post_id isn't set or is
@@ -37,7 +37,7 @@ class View {
 
 	//////////////////////////////////////////////////
 
-	protected function get_post_ancestors(){
+	public function get_post_ancestors(){
 	
 		throw new \Exception('get_post_ancestors is called but not complete');
 	
@@ -50,7 +50,7 @@ class View {
 
 	//////////////////////////////////////////////////
 
-	function is_in_rootline($pid=0){
+	public function is_in_rootline($pid=0){
 		if(!intval($pid)){
 			return false;
 		}
@@ -78,7 +78,7 @@ class View {
 
 	//////////////////////////////////////////////////
 
-	protected function inherit($post, $key, $final_fallback_id=0){
+	public function inherit($post, $key, $final_fallback_id=0){
 		// Get meta value from current post
 		// If empty, check parent
 		// If empty, check grandparent
