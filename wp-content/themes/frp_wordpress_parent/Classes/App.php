@@ -54,6 +54,8 @@ class App {
 		$this->extend('language');		// load translations
 		$this->extend('view');			// setup page or post view
 		$this->extend('media');			// functions for media / image handling
+		$this->extend('admin');			// wp-admin (backend) functions
+		
 		$this->load_configuration();	// load any special configuration files if available
 		$this->load_theme_options();	// load any theme options if available
 	}
