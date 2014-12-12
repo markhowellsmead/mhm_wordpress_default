@@ -7,7 +7,7 @@ class App {
 	public
 		$key,
 		$version = '1.0',
-		$themeoptions = array(),
+		$options = array(),
 		$paths = array();
 
 	private 
@@ -23,6 +23,11 @@ class App {
 		}
 		return self::$instance;
 	}
+	
+	function dump($var,$die=false){
+		echo '<pre>' .print_r($var,1). '</pre>';
+		if($die){die();}
+	}//dump
 
 	//////////////////////////////////////////////////
 
@@ -33,7 +38,6 @@ class App {
 		add_action('wp_head', array($this, 'add_app_icons'));
 		add_action('wp_head', array($this, 'add_favicon'));
 		add_action('wp_head', array($this, 'add_meta'));
-
 	}
 
 	//////////////////////////////////////////////////
@@ -57,7 +61,12 @@ class App {
 		$this->extend('admin');			// wp-admin (backend) functions
 		
 		$this->load_configuration();	// load any special configuration files if available
-		$this->load_theme_options();	// load any theme options if available
+
+		add_action( 'wp_enqueue_scripts', array(&$this, 'add_default_style') );
+
+		// enqueue main child CSS files
+		add_action( 'wp_enqueue_scripts', array(&$this, 'add_child_styles') );
+
 	}
 
 	//////////////////////////////////////////////////
@@ -159,20 +168,6 @@ class App {
 
 	//////////////////////////////////////////////////
 
-	public function load_theme_options(){
-
-		add_action( 'wp_enqueue_scripts', array(&$this, 'add_default_style') );
-
-		// not ready yet
-		/*if(file_exists($this->paths['configuration_path'].'/themeoptions.inc.php')){
-			require_once($this->paths['configuration_path'].'/themeoptions.inc.php');
-			$this->themeoptions = get_option('themeoptions_'.$this->key);
-			$this->themeoptions['email'] = antispambot($this->themeoptions['email']);
-		}*/
-	}
-
-	/////////////////////////////////////////////
-	
 	public function load_configuration(){
 		// load configuration files for e.g. advanced custom fields
 		if( is_dir($this->paths['configuration_path']) ){
@@ -190,6 +185,26 @@ class App {
 		wp_enqueue_style( 'css-reset', $this->paths['parent_uri'] . '/Resources/Public/Css/css-reset.css', null, $this->version, 'all');
 		wp_enqueue_style( 'basic', $this->paths['parent_uri'] . '/Resources/Public/Css/basic.css', null, $this->version, 'all');
 		wp_enqueue_style( $this->key.'-style', get_stylesheet_uri(), null, $this->version, 'all');
+	}
+
+	//////////////////////////////////////////////////
+
+	public function add_child_styles(){
+		wp_enqueue_style( $this->key.'-corestyle', $this->paths['resources_uri'].'/Public/Css/style.css', null, $this->version, 'all');
+	}
+
+	//////////////////////////////////////////////////
+
+	public function add_style($path='', $key = ''){
+		if(file_exists($this->paths['child_path'] . $path) && $key!==''){
+			wp_enqueue_style( $this->key.'-'.$key, $this->paths['child_uri'].$path, null, $this->version, 'all');
+		}else{
+			if($key == ''){
+				trigger_error(sprintf(__('CSS key for %s was not defined', $this->key), $path), E_USER_WARNING);
+			}else{
+				trigger_error(sprintf(__('%s does not exist', $this->key), $path), E_USER_WARNING);
+			}
+		}
 	}
 
 	//////////////////////////////////////////////////
@@ -218,9 +233,9 @@ class App {
 	public function add_meta(){
 
 		echo '<meta property="og:type" content="blog" />
-			<meta property="og:url" content="http:// '.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']. '" />
-			<meta property="og:title" content="' .''. '" />
-			<meta property="og:description" content="" />';
+			<meta property="og:url" content="http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']. '" />
+			<meta property="og:title" content="' .wp_title('–', false, 'right') . get_bloginfo('name') . '" />
+			<meta property="og:description" content="' .get_the_excerpt(). '" />';
 			
 		if(file_exists($this->paths['resources_path'].'/Images/facebook.jpg')){
 			echo '<meta property="og:image" content="' .$this->paths['resources_uri'].'/Images/facebook.jpg" />';
