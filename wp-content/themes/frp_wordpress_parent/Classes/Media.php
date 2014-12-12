@@ -8,7 +8,6 @@ class Media {
 	
 	public function __construct(&$app){
 		$this->app = $app;
-		add_theme_support('post-thumbnails');
 	}
 	
 	//////////////////////////////////////////////////
