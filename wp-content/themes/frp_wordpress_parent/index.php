@@ -17,7 +17,7 @@
 global $app;
 get_header();
 
-get_template_part( 'content', 'header' );
+get_template_part( 'Partials/content', 'header' );
 
 ?>
 
