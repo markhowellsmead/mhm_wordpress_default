@@ -30,8 +30,6 @@ Ein PNG-Screenshot – 968px x 725px – als screenshot.png im Child Theme ableg
 
 Der Pfad http://WEBSITE/wp-admin/ aufrufen. (WEBSITE mit der richtigen Domainnamen auswechseln.) Wordpress leitet dich durch das einfache Setup-Prozess.
 
-Select the Child Theme under **Appearance** » **Themes**. (Not the parent theme.)
-
 Einloggen und das Child-Theme unter **Design** » **Themes** anwählen.
 
 Falls definiert, die Theme-Einstellungen unter **Design** » **Theme-Einstellungen** setzen.
