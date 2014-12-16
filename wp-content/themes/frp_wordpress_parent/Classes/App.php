@@ -64,9 +64,6 @@ class App {
 
 		add_action( 'wp_enqueue_scripts', array(&$this, 'add_default_style') );
 
-		// enqueue main child CSS files
-		add_action( 'wp_enqueue_scripts', array(&$this, 'add_child_styles') );
-
 	}
 
 	//////////////////////////////////////////////////
@@ -183,21 +180,16 @@ class App {
 	
 	public function add_default_style($file='', $media='all', $filekey=''){
 		wp_enqueue_style( 'css-reset', $this->paths['parent_uri'] . '/Resources/Public/Css/css-reset.css', null, $this->version, 'all');
-		wp_enqueue_style( 'basic', $this->paths['parent_uri'] . '/Resources/Public/Css/basic.css', null, $this->version, 'all');
-		wp_enqueue_style( $this->key.'-style', get_stylesheet_uri(), null, $this->version, 'all');
+		wp_enqueue_style( 'basic', $this->paths['parent_uri'] . '/Resources/Public/Css/basic.css', array('css-reset'), $this->version, 'all');
+		wp_enqueue_style( $this->key.'-style', get_stylesheet_uri(), array('css-reset', 'basic'), $this->version, 'all');
+		wp_enqueue_style( $this->key.'-childstyle', $this->paths['resources_uri'].'/Public/Css/style.css', array('css-reset', 'basic', $this->key.'-style'), $this->version, 'all');
 	}
 
 	//////////////////////////////////////////////////
 
-	public function add_child_styles(){
-		wp_enqueue_style( $this->key.'-corestyle', $this->paths['resources_uri'].'/Public/Css/style.css', null, $this->version, 'all');
-	}
-
-	//////////////////////////////////////////////////
-
-	public function add_style($path='', $key = ''){
+	public function add_style($path='', $key = '', $dependency = null){
 		if(file_exists($this->paths['child_path'] . $path) && $key!==''){
-			wp_enqueue_style( $this->key.'-'.$key, $this->paths['child_uri'].$path, null, $this->version, 'all');
+			wp_enqueue_style( $this->key.'-'.$key, $this->paths['child_uri'].$path, $dependency, $this->version, 'all');
 		}else{
 			if($key == ''){
 				trigger_error(sprintf(__('CSS key for %s was not defined', $this->key), $path), E_USER_WARNING);
