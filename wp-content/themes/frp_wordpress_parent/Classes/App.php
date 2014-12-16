@@ -224,7 +224,9 @@ class App {
 
 	public function add_meta(){
 
-		echo '<meta property="og:type" content="blog" />
+		echo '
+			<meta property="og:locale" content="' .WPLANG. '"/>
+			<meta property="og:type" content="website"/>
 			<meta property="og:url" content="http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']. '" />
 			<meta property="og:title" content="' .wp_title('–', false, 'right') . get_bloginfo('name') . '" />
 			<meta property="og:description" content="' .get_the_excerpt(). '" />';
