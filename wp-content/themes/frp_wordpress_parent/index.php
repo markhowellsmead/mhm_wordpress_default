@@ -40,6 +40,13 @@ get_template_part( 'Partials/content', 'header' );
 	
 			}
 	
+			// Previous/next page navigation.
+			/*the_pagination( array(
+				'prev_text'          => __( 'Previous page', $app->key ),
+				'next_text'          => __( 'Next page', $app->key ),
+				'before_page_number' => '<span class="meta-nav screen-reader-text">' . __( 'Page', $app->key ) . ' </span>',
+			) );*/
+
 		} else {
 	
 			// If no content, include the "No posts found" template.
