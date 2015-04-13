@@ -9,7 +9,7 @@
 namespace Frp\WordPress;
 
 class Admin {
-	
+
 	var $app = null;
 
 	//////////////////////////////////////////////////
@@ -30,12 +30,12 @@ class Admin {
 		 */
 
 		global $wp_meta_boxes;
-	
+
 		// side widgets
 		unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press']);
 		unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_primary']);
 		unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_secondary']);
-		
+
 		//normal widgets
 		unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_right_now']);
 		unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_incoming_links']);
@@ -51,14 +51,16 @@ class Admin {
 		 * Referenced by add_dashboard_widgets
 		 */
 		printf(__('For support, please contact %1s at %2s',$this->app->parentkey),'!frappant Webfactory','<a href="mailto:support@frappant.ch">support@frappant.ch</a>');
-	} 
+	}
+
+	//////////////////////////////////////////////////
 
 	public function add_dashboard_widgets() {
 		/**
 		 * Add custom dashboard element/s
 		 */
 		wp_add_dashboard_widget('default_dashboard_widget', __('Administration section',$this->app->parentkey), array(&$this, 'widget_default') );
-	} 
+	}
 
 	//////////////////////////////////////////////////
 

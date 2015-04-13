@@ -6,7 +6,7 @@
  * @subpackage Frp_WordPress_Parent
  * @since v1.0
  */
- 
+
 global $app;
 get_header(); ?>
 

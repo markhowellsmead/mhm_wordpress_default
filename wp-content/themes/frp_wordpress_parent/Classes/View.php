@@ -3,7 +3,7 @@
 namespace Frp\WordPress;
 
 class View {
-	
+
 	var $app = null,
 		$data = array();
 
@@ -20,10 +20,10 @@ class View {
 		/*
 			standard function to extend get_post_meta
 			if value on $post_id isn't set or is
-			empty, and $fallback_id is not 0, then 
-			return the value from the fallback post 
+			empty, and $fallback_id is not 0, then
+			return the value from the fallback post
 			instead (even if it is empty).
-		 */
+		*/
 		$meta_value = get_post_meta($post_id, $key, $single);
 		if(empty($meta_value) && $fallback_id!=0){
 			$meta_value = get_post_meta($fallback_id, $key, $single);
@@ -31,16 +31,16 @@ class View {
 		if($filter){
 			$meta_value = apply_filters('the_content',$meta_value);
 		}
-		
+
 		return $meta_value;
 	}
 
 	//////////////////////////////////////////////////
 
 	public function get_post_ancestors(){
-	
+
 		throw new \Exception('get_post_ancestors is called but not complete');
-	
+
 		// add an array to the post of all ancestor IDs (top-down). The first entry is the top-level parent page.
 		if($this->view['post']){
 			$this->view['post']->ancestors = array_reverse(get_post_ancestors($this->view['post']));
@@ -87,7 +87,7 @@ class View {
 		// Return string
 
 		$val = $this->get_post_meta($post->ID, $key, true, false, $post->post_parent);
-		
+
 		if($val==''){
 			$parent = get_post($post->post_parent);
 			$val = $this->get_post_meta($parent->ID, $key, true, false, $parent->post_parent);

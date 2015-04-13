@@ -3,7 +3,7 @@
 namespace Frp\WordPress;
 
 class Filesystem {
-	
+
 	var $app = null;
 
 	//////////////////////////////////////////////////
@@ -33,7 +33,7 @@ class Filesystem {
 	function last_modified($file){
 		/*
 		 * get modification date as timestamp
-		 * return false if $file is not a file or if 
+		 * return false if $file is not a file or if
 		 * modification date not available
 		 */
 		if(!is_file($file)){return false;}
@@ -48,7 +48,7 @@ class Filesystem {
 		/**
 		 * get seconds elapsed since modification date
 		 * of file (e.g. 120 seconds ago)
-		 * return false if $file is not a file or if 
+		 * return false if $file is not a file or if
 		 * modification date not available
 		 */
 		if(!is_file($file)){return false;}
@@ -99,7 +99,7 @@ class Filesystem {
 				}
 			}
 		}
-		
+
 		print $n." ".($extension!==''?$extension.' ':'')."files deleted from ".str_replace($_SERVER['DOCUMENT_ROOT'],'',$path)."\r";
 		flush();
 

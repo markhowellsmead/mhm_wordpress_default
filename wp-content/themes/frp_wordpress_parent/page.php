@@ -15,7 +15,7 @@
 
 global $app;
 get_header();
-
+get_template_part( 'Partials/Content/Header' );
 ?>
 
 <section class="module row content">

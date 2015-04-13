@@ -11,25 +11,25 @@ class App {
 		$paths = array(),
 		$menus = array();
 
-	private 
+	private
 		$imported_classes = array();
-			
+
 	private static $instance;
 
 	//////////////////////////////////////////////////
 
 	public static function getSingleton(){
 		/**
-		 * This function checks to see if a current App object 
+		 * This function checks to see if a current App object
 		 * exists, then creates it if necessary.
 		 */
-		
+
 		if (empty(self::$instance)){
 			self::$instance = new App();
 		}
 		return self::$instance;
 	}
-	
+
 	function dump($var,$die=false){
 		echo '<pre>' .print_r($var,1). '</pre>';
 		if($die){die();}
@@ -40,7 +40,7 @@ class App {
 	function __construct(){
 
 		$this->initialize();
-		
+
 		add_action('wp_head', array($this, 'add_app_icons'));
 		add_action('wp_head', array($this, 'add_favicon'));
 		add_action('wp_head', array($this, 'add_meta'));
@@ -65,7 +65,7 @@ class App {
 		$this->extend('view');			// setup page or post view
 		$this->extend('media');			// functions for media / image handling
 		$this->extend('admin');			// wp-admin (backend) functions
-		
+
 		$this->load_configuration();	// load any special configuration files if available
 
 		add_action( 'wp_enqueue_scripts', array(&$this, 'add_default_style') );
@@ -88,19 +88,19 @@ class App {
 	public function extend($functionality, $child_key = ''){
 		/*
 			magic function __call (above) MUST BE USED with this.
-			
+
 			load additional class functionality on request.
 			looks for a file with the name e.g. Youtube.php
-			in the same folder, which must contain a class called 
-			e.g. Youtube (i.e. $functionality all lowercase but 
+			in the same folder, which must contain a class called
+			e.g. Youtube (i.e. $functionality all lowercase but
 			with upper case first letter)
 
 			usage:
 
 			$this->extend('youtube');
 			return $this->getVideoTitle(intval($_GET['videoID']));
-			
-		 */
+
+		*/
 
 		if($child_key!==''){
 			$source_folder = $this->paths['child_path'].'/Classes';
@@ -110,6 +110,7 @@ class App {
 
 		$functionality = strtolower($functionality);
 		$sub_class_name = ucfirst(strtolower($functionality));
+
 		$sub_class_file = $source_folder.'/'.$sub_class_name. '.php';
 
 		$sub_class=null;
@@ -120,26 +121,26 @@ class App {
 			if(!file_exists($sub_class_file)){
 				trigger_error(sprintf( __('Could not find sub class file for functionality “%s”', $this->key), $functionality), E_USER_ERROR);
 			}
-	
+
 			require_once($sub_class_file);
 
 			$sub_class_name = 'Frp\WordPress\\' . $sub_class_name;
 
 			$sub_class = new $sub_class_name($this);
 			$sub_class_functions = get_class_methods($sub_class);
-			
+
 			array_push($this->imported_classes, $sub_class_name);
 			//array_push($this->imported_functions, array($sub_class_name, $sub_class));
 
 			// overload the main class with the new function
 			// but only where the function has not already been pulled in
 			// this avoids conflicts where multiple functions have the same name
-			
+
 			foreach($sub_class_functions as $key => $function_name){
 				$this->imported_functions[$function_name] = &$sub_class;
 				$this->$functionality->$function_name = &$sub_class_functions[$function_name];
 			}
-			
+
 		}
 
 		return (bool)$sub_class;
@@ -159,7 +160,7 @@ class App {
 		$this->paths['resources_path']		= $this->paths['child_path'].'/Resources';
 		$this->paths['resources_uri']		= $this->paths['child_uri'].'/Resources';
 		$this->paths['configuration_path']	= $this->paths['child_path'].'/Configuration';
-		
+
 		$this->paths['pre_option_upload_url_path'] = '';
 
 	}
@@ -189,7 +190,7 @@ class App {
 	}
 
 	/////////////////////////////////////////////
-	
+
 	public function add_default_style($file='', $media='all', $filekey=''){
 		/**
 		 * Add appropriate LINK tags to the HTML output for the standard CSS
@@ -206,7 +207,7 @@ class App {
 
 	public function add_style($path='', $key = '', $dependency = null){
 		/**
-		 * If the child theme contains the 
+		 * If the child theme contains the
 		 * resources folder, add appropriate LINK tags to the HTML output.
 		 *
 		 * @param $path (string)	Path to the CSS file to be loaded
@@ -263,21 +264,32 @@ class App {
 		 * resources folder, add the appropriate META tag to the HTML output.
 		 */
 		echo '
-			<meta property="og:locale" content="' .WPLANG. '" />
-			<meta property="og:type" content="website" />
+			<meta property="og:locale" content="' .get_locale(). '"/>
+			<meta property="og:type" content="website"/>
 			<meta property="og:url" content="http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']. '" />
 			<meta property="og:title" content="' .wp_title('–', false, 'right') . get_bloginfo('name') . '" />
 			<meta property="og:description" content="' .get_the_excerpt(). '" />';
-			
+
 		if(file_exists($this->paths['resources_path'].'/Images/facebook.jpg')){
 			echo '<meta property="og:image" content="' .$this->paths['resources_uri'].'/Images/facebook.jpg" />';
 		}
 	}
 
 	/////////////////////////////////////////////
-	
+
 	public static function clean_menu($html){
 		return preg_replace('/title=\"(.*?)\"/','',$html);
+	}
+
+	//////////////////////////////////////////////////
+
+	public function get_option($optionkey){
+		$themeoptions = get_option('themeoptions_'.$this->key);
+		if( isset($themeoptions[$optionkey]) ){
+			return $themeoptions[$optionkey];
+		}else{
+			return null;
+		}
 	}
 
 }

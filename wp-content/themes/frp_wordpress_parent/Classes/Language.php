@@ -9,7 +9,7 @@
 namespace Frp\WordPress;
 
 class Language {
-	
+
 	var $app = null;
 	var $languages_loaded = false;
 
