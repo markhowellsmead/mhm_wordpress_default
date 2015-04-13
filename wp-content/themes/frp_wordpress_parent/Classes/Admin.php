@@ -1,4 +1,11 @@
 <?php
+/**
+* Functions for WordPress admin area. (“Backend”.)
+* These functions will be loaded automatically by the App class.
+*
+* @since 	11.03.15
+*/
+
 namespace Frp\WordPress;
 
 class Admin {
@@ -18,6 +25,10 @@ class Admin {
 	//////////////////////////////////////////////////
 
 	public function remove_dashboard_widgets() {
+		/**
+		 * Forcibly remove most of the standard dashboard elements
+		 */
+
 		global $wp_meta_boxes;
 	
 		// side widgets
@@ -35,18 +46,32 @@ class Admin {
 	//////////////////////////////////////////////////
 
 	public function widget_default() {
-		printf(__('For support, please contact %1s at %2s',THEME),'!frappant Webfactory','<a href="mailto:support@frappant.ch">support@frappant.ch</a>');
+		/**
+		 * The contents of the dashboard widget
+		 * Referenced by add_dashboard_widgets
+		 */
+		printf(__('For support, please contact %1s at %2s',$this->app->parentkey),'!frappant Webfactory','<a href="mailto:support@frappant.ch">support@frappant.ch</a>');
 	} 
 
-	//////////////////////////////////////////////////
-
 	public function add_dashboard_widgets() {
-		wp_add_dashboard_widget('default_dashboard_widget', __('Administration section',THEME), array(&$this, 'widget_default') );
+		/**
+		 * Add custom dashboard element/s
+		 */
+		wp_add_dashboard_widget('default_dashboard_widget', __('Administration section',$this->app->parentkey), array(&$this, 'widget_default') );
 	} 
 
 	//////////////////////////////////////////////////
 
 	public function remove_menu_pages($pages = array(), $capability = ''){
+		/**
+		 * Programattically remove menu items from wp-admin.
+		 *
+		 * @since 	11.03.15
+		 *
+		 * @param 	$pages 		array() containing original labels to be removed. e.g. array('Posts', 'Links')
+		 * @param 	$capability string 	only remove the $pages if the user doesn't have the appropriate access rights
+		 * @return 	null
+		 */
 		if(count($pages) && $capability!=='' && !current_user_can($capability)){
 			foreach($pages as $page){
 				remove_menu_page($page);

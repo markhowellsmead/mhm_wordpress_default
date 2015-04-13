@@ -15,8 +15,10 @@ class Filesystem {
 	//////////////////////////////////////////////////
 
     function model_json_saveasfile($array,$filepath){
-    	// save $array as json file to $filepath
-    	// if file exists, it will be emptied and overwritten
+		/**
+    	* save $array as json file to $filepath
+    	* if file exists, it will be emptied and overwritten
+		 */
 	    $fhandle = fopen($filepath,'w');
 	    if($fhandle){
 		    fwrite($fhandle,json_encode($array));
@@ -30,10 +32,10 @@ class Filesystem {
 
 	function last_modified($file){
 		/*
-			get modification date as timestamp
-			return false if $file is not a file or if 
-			modification date not available
-		*/
+		 * get modification date as timestamp
+		 * return false if $file is not a file or if 
+		 * modification date not available
+		 */
 		if(!is_file($file)){return false;}
 		$filetime = filemtime($file);
 		if(!$filetime){$filetime=filectime($file);}
@@ -43,12 +45,12 @@ class Filesystem {
 	//////////////////////////////////////////////////
 
 	function last_modified_ago($file){
-		/*
-			get seconds elapsed since modification date
-			of file (e.g. 120 seconds ago)
-			return false if $file is not a file or if 
-			modification date not available
-		*/
+		/**
+		 * get seconds elapsed since modification date
+		 * of file (e.g. 120 seconds ago)
+		 * return false if $file is not a file or if 
+		 * modification date not available
+		 */
 		if(!is_file($file)){return false;}
 		$filetime = filemtime($file);
 		if(!$filetime){$filetime=filectime($file);}
@@ -58,10 +60,10 @@ class Filesystem {
 	//////////////////////////////////////////////////
 
 	function getFiles($dir,$suffix='') {
-		/*
-			get recursive list of all files in $dir
-			if $suffix is set, only include files with this suffix in the result list
-		*/
+		/**
+		 * get recursive list of all files in $dir
+		 * if $suffix is set, only include files with this suffix in the result list
+		 */
 		if(!is_dir($dir)){return false;}
 		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir),\RecursiveIteratorIterator::CHILD_FIRST);
 		$out=array();
@@ -76,11 +78,11 @@ class Filesystem {
 	//////////////////////////////////////////////////
 
 	function controller_files_delete($path, $extension='', $age=1800){
-		/*
-			delete all files in folder $path (and in subfolders of $path)
-			if $extension isn't empty, only delete matching files
-			requires functions get_files() and last_modified_ago() from this class
-		*/
+		/**
+		 * delete all files in folder $path (and in subfolders of $path)
+		 * if $extension isn't empty, only delete matching files
+		 * requires functions get_files() and last_modified_ago() from this class
+		 */
 
 		$files = $this->get_files($path,$extension);
 
@@ -106,9 +108,11 @@ class Filesystem {
 	//////////////////////////////////////////////////
 
 	function controller_file_convertToBase64($path){
-		//	pfad eingeben (relative zu document_root)
-		//	falls datei in php geladen werden kann, diese als BASE64-String
-		//	enkodieren und zurück geben
+		/**
+		 * pfad eingeben (relative zu document_root)
+		 * falls datei in php geladen werden kann, diese als BASE64-String
+		 * enkodieren und zurück geben
+		 */
 		if($fp = fopen($_SERVER['DOCUMENT_ROOT'].'/'.$path,"rb", 0)){
 			$imagedata = getimagesize($path);
 			$picture = fread($fp,filesize($path));

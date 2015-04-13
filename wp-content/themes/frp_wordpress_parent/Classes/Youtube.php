@@ -24,10 +24,10 @@ class Youtube {
 
 	public function getVideoThumbnailSRC($url=''){
 		/*
-		*	@rev 			16.11.2012 13:28 mhm
-		*	@param 	url		'http://www.youtube.com/watch?v=Cr2_Dn0e5nU'
-		*	@return image src	'http://i.ytimg.com/vi/Cr2_Dn0e5nU/0.jpg'
-		*/
+		 *	@rev 			16.11.2012 13:28 mhm
+		 *	@param 	url		'http://www.youtube.com/watch?v=Cr2_Dn0e5nU'
+		 *	@return image src	'http://i.ytimg.com/vi/Cr2_Dn0e5nU/0.jpg'
+		 */
 
 		if($url == ''){return '';}
 		$id = $this->getIDfromURL($url);

@@ -23,7 +23,7 @@ class View {
 			empty, and $fallback_id is not 0, then 
 			return the value from the fallback post 
 			instead (even if it is empty).
-		*/
+		 */
 		$meta_value = get_post_meta($post_id, $key, $single);
 		if(empty($meta_value) && $fallback_id!=0){
 			$meta_value = get_post_meta($fallback_id, $key, $single);

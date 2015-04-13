@@ -149,7 +149,7 @@ class App {
 		$this->paths['child_path']			= get_stylesheet_directory();
 		$this->paths['child_uri']			= get_stylesheet_directory_uri();
 
-		// Configuraiton files and resources like images, CSS and JavaScript are stored in the child theme
+		// Configuration files and resources like images, CSS and JavaScript are stored in the child theme
 		$this->paths['resources_path']		= $this->paths['child_path'].'/Resources';
 		$this->paths['resources_uri']		= $this->paths['child_uri'].'/Resources';
 		$this->paths['configuration_path']	= $this->paths['child_path'].'/Configuration';
@@ -166,7 +166,10 @@ class App {
 	//////////////////////////////////////////////////
 
 	public function load_configuration(){
-		// load configuration files for e.g. advanced custom fields
+		/**
+		 * Load configuration files for e.g. advanced custom fields
+		 * if they are available within the standard child theme configuration_path
+		 */
 		if( is_dir($this->paths['configuration_path']) ){
 			$this->extend('filesystem');
 			$this->configuration = $this->getFiles($this->paths['configuration_path']);
@@ -179,6 +182,11 @@ class App {
 	/////////////////////////////////////////////
 	
 	public function add_default_style($file='', $media='all', $filekey=''){
+		/**
+		 * Add appropriate LINK tags to the HTML output for the standard CSS
+		 * files in the parent and child theme resource folders.
+		 * Dependency definitions ensure that they are loaded in the correct order.
+		 */
 		wp_enqueue_style( 'css-reset', $this->paths['parent_uri'] . '/Resources/Public/Css/css-reset.css', null, $this->version, 'all');
 		wp_enqueue_style( 'basic', $this->paths['parent_uri'] . '/Resources/Public/Css/basic.css', array('css-reset'), $this->version, 'all');
 		wp_enqueue_style( $this->key.'-style', get_stylesheet_uri(), array('css-reset', 'basic'), $this->version, 'all');
@@ -188,6 +196,14 @@ class App {
 	//////////////////////////////////////////////////
 
 	public function add_style($path='', $key = '', $dependency = null){
+		/**
+		 * If the child theme contains the 
+		 * resources folder, add appropriate LINK tags to the HTML output.
+		 *
+		 * @param $path (string)	Path to the CSS file to be loaded
+		 * @param $key (string) 	A unique identifier for the CSS file
+		 */
+
 		if(file_exists($this->paths['child_path'] . $path) && $key!==''){
 			wp_enqueue_style( $this->key.'-'.$key, $this->paths['child_uri'].$path, $dependency, $this->version, 'all');
 		}else{
@@ -202,6 +218,11 @@ class App {
 	//////////////////////////////////////////////////
 
 	public function add_favicon(){
+		/**
+		 * If the favicon file is available in one of the usual locations,
+		 * add a LINK tag to the HTML output. File in the child theme
+		 * resources folder takes priority over the one in the web root.
+		 */
 		if(file_exists($this->paths['resources_path'].'/Images/favico.ico')){
 			echo '<link rel="icon" type="image/x-icon" href="' .$this->paths['resources_uri'].'/Images/favico.ico" />';
 		}else if(file_exists($_SERVER['DOCUMENT_ROOT'].'/favico.ico')){
@@ -212,6 +233,10 @@ class App {
 	//////////////////////////////////////////////////
 
 	public function add_app_icons(){
+		/**
+		 * If a touch icon file “icon-touch.png” is available in the child theme
+		 * resources folder, add appropriate LINK tags to the HTML output.
+		 */
 		if(file_exists($this->paths['resources_path'].'/Images/icon-touch.png')){
 			echo '<link rel="apple-touch-icon-precomposed" type="image/png" href="' .$this->paths['resources_uri'].'/Images/icon-touch.png" />'.PHP_EOL.
 			'<link rel="apple-touch-icon-precomposed" type="image/png" sizes="72x72" href="' .$this->paths['resources_uri'].'/Images/icon-touch.png" />'.PHP_EOL.
@@ -223,7 +248,11 @@ class App {
 	//////////////////////////////////////////////////
 
 	public function add_meta(){
-
+		/**
+		 * Add the standard Open Graph tags to the HTML header
+		 * If a thumbnail image file facebook.png” is available in the child theme
+		 * resources folder, add the appropriate META tag to the HTML output.
+		 */
 		echo '
 			<meta property="og:locale" content="' .WPLANG. '"/>
 			<meta property="og:type" content="website"/>

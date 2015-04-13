@@ -4,7 +4,9 @@ namespace Frp\WordPress;
 
 class Helpers {
 
-	// Global non-WordPress helper functions
+	/**
+	* Global non-WordPress helper functions
+	*/
 
 	function strftime($format, $timestamp){
 		// add ordinal suffix (th, rd etc.) for English languages

@@ -61,7 +61,7 @@ global $app;
 				'link_after'  => '</span>',
 			) );
 		?>
-	</div><!-- .entry-content -->
+	</div>
 	<?php endif; ?>
 
 	<?php the_tags( '<footer class="entry-meta"><span class="tag-links">', '', '</span></footer>' ); ?>
