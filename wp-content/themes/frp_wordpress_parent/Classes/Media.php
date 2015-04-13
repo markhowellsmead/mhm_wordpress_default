@@ -25,6 +25,7 @@ class Media {
 		 * usage: add_filter('pre_option_upload_url_path', array($this, 'pre_option_upload_url_path'), 10);
 		 * set the value of $this->app->paths['pre_option_upload_url_path'] BEFORE this function is called
 		 */
+		return $this->app->paths['pre_option_upload_url_path'];
 	}
 	
 	//////////////////////////////////////////////////
@@ -72,8 +73,7 @@ class Media {
 	
 	//////////////////////////////////////////////////
 	
-	protected function wrap_oem_video($html='', $url='', $attr, $post_ID) {
-
+	protected function wrap_oem_video($html='', $url='', $attr) {
 		/**
 		 * Add wrapper HTML to an OEM video element
 		 * See http://codex.wordpress.org/Embeds for OEM reference
