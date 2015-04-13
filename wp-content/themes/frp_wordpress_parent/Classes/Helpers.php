@@ -24,9 +24,15 @@ class Helpers {
 	//////////////////////////////////////////////////
 
 	public function rsort(&$array){
-		// rsort with SORT_NATURAL is only available in PHP 5.4+
-		natsort($array);
-		$array = array_reverse($array);
+		/**
+		 * rsort with SORT_NATURAL is only available in PHP 5.4+
+		 */
+		if( version_compare(phpversion(), '5.4.0', '>=') ) {
+			rsort($array, SORT_NATURAL);
+		}else{
+			natsort($array);
+			$array = array_reverse($array);
+		}
 	}//rsort
 
 }
