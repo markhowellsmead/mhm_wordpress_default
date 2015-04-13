@@ -5,10 +5,11 @@ namespace Frp\WordPress;
 class App {
 
 	public
-		$key,
+		$key, $parentkey,
 		$version = '1.0',
 		$options = array(),
-		$paths = array();
+		$paths = array(),
+		$menus = array();
 
 	private 
 		$imported_classes = array();
@@ -18,6 +19,11 @@ class App {
 	//////////////////////////////////////////////////
 
 	public static function getSingleton(){
+		/**
+		 * This function checks to see if a current App object 
+		 * exists, then creates it if necessary.
+		 */
+		
 		if (empty(self::$instance)){
 			self::$instance = new App();
 		}
@@ -160,6 +166,7 @@ class App {
 
 	public function set_keys(){
 		// keys are used for e.g. translations. The default key is the name of the child theme folder.
+		$this->parentkey = basename($this->paths['parent_path']);
 		$this->key = basename($this->paths['child_path']);
 	}
 

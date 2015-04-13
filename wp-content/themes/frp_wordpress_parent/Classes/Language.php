@@ -32,7 +32,7 @@ class Language {
 		 */
 
 		if( is_dir($this->app->paths['parent_path'].'/Resources/Private/Language') ){
-			$this->languages_loaded = load_theme_textdomain($this->app->key, $this->app->paths['parent_path'].'/Resources/Private/Language');
+			$this->languages_loaded = load_theme_textdomain($this->app->parentkey, $this->app->paths['parent_path'].'/Resources/Private/Language');
 		}
 		if( is_dir($this->app->paths['child_path'].'/Resources/Private/Language') ){
 			$this->languages_loaded = load_theme_textdomain($this->app->key, $this->app->paths['child_path'].'/Resources/Private/Language');
