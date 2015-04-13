@@ -110,7 +110,7 @@ class App {
 
 		$functionality = strtolower($functionality);
 		$sub_class_name = ucfirst(strtolower($functionality));
-		$sub_class_file = $source_folder.'/'.$functionality. '.php';
+		$sub_class_file = $source_folder.'/'.$sub_class_name. '.php';
 
 		$sub_class=null;
 
