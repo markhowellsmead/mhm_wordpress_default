@@ -100,7 +100,7 @@ class App {
 			$this->extend('youtube');
 			return $this->getVideoTitle(intval($_GET['videoID']));
 			
-		*/
+		 */
 
 		if($child_key!==''){
 			$source_folder = $this->paths['child_path'].'/Classes';
@@ -159,6 +159,8 @@ class App {
 		$this->paths['resources_path']		= $this->paths['child_path'].'/Resources';
 		$this->paths['resources_uri']		= $this->paths['child_uri'].'/Resources';
 		$this->paths['configuration_path']	= $this->paths['child_path'].'/Configuration';
+		
+		$this->paths['pre_option_upload_url_path'] = '';
 
 	}
 
@@ -261,8 +263,8 @@ class App {
 		 * resources folder, add the appropriate META tag to the HTML output.
 		 */
 		echo '
-			<meta property="og:locale" content="' .WPLANG. '"/>
-			<meta property="og:type" content="website"/>
+			<meta property="og:locale" content="' .WPLANG. '" />
+			<meta property="og:type" content="website" />
 			<meta property="og:url" content="http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']. '" />
 			<meta property="og:title" content="' .wp_title('–', false, 'right') . get_bloginfo('name') . '" />
 			<meta property="og:description" content="' .get_the_excerpt(). '" />';
