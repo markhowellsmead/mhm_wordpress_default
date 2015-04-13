@@ -15,7 +15,7 @@
 
 global $app;
 get_header();
-get_template_part( 'content', 'header' );
+
 ?>
 
 <section class="module row content">
@@ -23,20 +23,15 @@ get_template_part( 'content', 'header' );
 <?php
 	if ( have_posts() ){
 
-		// Start the Loop.
-		while ( have_posts() ){
-			
-			the_post();
+		the_post();
 
-			// Include the page content template.
-			get_template_part( 'content', 'page' );
-
-		}
+		// Include the page content template.
+		get_template_part( 'Partials/Content/Page' );
 
 	} else {
 
 		// If no content, include the "No posts found" template.
-		get_template_part( 'content', 'none' );
+		get_template_part( 'Partials/Content/None' );
 
 	}
 ?>
