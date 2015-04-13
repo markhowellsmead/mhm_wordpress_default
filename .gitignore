@@ -20,3 +20,9 @@ wp-settings.php
 wp-signup.php
 wp-trackback.php
 xmlrpc.php
+wp-content/languages
+wp-content/plugins
+wp-content/themes/twentyfifteen
+wp-content/themes/twentyfourteen
+liesmich.html
+wp-config-sample.php
