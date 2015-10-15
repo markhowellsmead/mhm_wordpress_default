@@ -1,0 +1,181 @@
+//////////////////////////////////////////////////
+// media helpers
+
+%hidden-small {
+	@media screen and (max-width: $breakpoint-small-max){
+		display: none;
+	}
+}
+
+%print-hide {
+	@media print {
+		display: none;
+	}
+}
+
+%screen-hide {
+	@media screen {
+		display: none;
+	}
+}
+
+%for-small {
+	@media screen and (max-width: $breakpoint-small-max){
+		display: block;
+	}
+}
+
+%for-medium {
+	@media screen and (min-width: $breakpoint-small-max + 1) and (max-width: $breakpoint-medium-max){
+		display: block;
+	}
+}
+
+%for-desktop {
+	@media screen and (min-width: $breakpoint-mediumlarge-max + 1){
+		display: block;
+	}
+}
+
+%is-fixed {
+	position: fixed;
+	left: 0;
+	right: 0;
+	z-index: 10;
+}
+
+%is-not-fixed {
+	position: relative;
+	top: auto;
+	bottom: auto;
+	left: auto;
+	right: auto;
+}
+
+%is-fixed-top {
+	@extend %is-fixed;
+	top: 0;
+}
+
+%is-fixed-bottom {
+	@extend %is-fixed;
+	bottom: 0;
+}
+
+//////////////////////////////////////////////////
+// layout
+
+%flood {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	width: 100%;
+	height: 100%;
+}
+
+%background-flood {
+	background: center / cover no-repeat;
+}
+
+%flat-form-field {
+	display: block;
+	-webkit-appearance: none;
+	padding: 0.76666666666667*$unit-y $unit-x;
+	border: none;
+}
+
+%button {
+	@extend %flat-form-field;
+	background-color: $button-background;
+	color: $button-colour;
+	font-weight: bold;
+}
+
+%centered-block {
+	margin: 0 auto;
+}
+
+%clear {
+	clear:both;
+}
+
+%clearfix {
+	@extend %clear;
+	zoom: 1; // ie6+7
+	&:before, &:after {
+		content: "\0020";
+		display: block;
+		height: 0;
+		overflow: hidden;
+	}
+	&:after {
+		@extend %clear;
+	}
+}
+
+%inline-nav {
+	text-align: center;
+	margin-bottom: $unit-y;
+	line-height: 1;
+	ul, li {
+		margin: 0;
+	}
+	li {
+		display: inline-block;
+		padding: 0 $unit-x/4;
+		&.act > a {
+			@extend %nav-active;
+		}
+	}
+}
+
+%listless {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	li {
+		margin: 0;
+		padding: 0;
+	}
+}
+
+%no-clearfix {
+	zoom: auto;
+	&:before, &:after {
+		clear:none;
+	}
+}
+
+//////////////////////////////////////////////////
+// containers
+
+%primary-background {
+	background-color: $background-primary;
+}
+%secondary-background {
+	background-color: $background-secondary;
+}
+
+//////////////////////////////////////////////////
+// typo
+
+%nav-active {
+	color: $nav-colour-act;
+	font-weight: bold;
+}
+
+%title {
+	font: bold 1em $title-font;
+	color: $title-colour;
+}
+
+%section-title {
+	margin: 0 0 $unit-y;
+}
+
+%section-subtitle {
+	@extend %centered-block;
+	margin: $unit-y auto;
+}

@@ -1,0 +1,65 @@
+@mixin breakpoint($point) {
+	@if $point == chewie {
+		@media (min-width: $breakpoint-large-max + 1) { @content ; }
+	}
+	@else if $point == large {
+		@media (min-width: $breakpoint-mediumlarge-max + 1) { @content ; }
+	}
+	@else if $point == mediumlarge {
+		@media (min-width: $breakpoint-medium-max + 1) { @content ; }
+	}
+	@else if $point == medium {
+		@media (min-width: $breakpoint-small-max + 1) { @content ; }
+	}
+	@else if $point == small {
+		@media (min-width: $breakpoint-tiny-max + 1) { @content ; }
+	}
+	@else if $point == tinyonly {
+		@media (max-width: $breakpoint-tiny-max) { @content ; }
+	}
+	@else if $point == mediumonly {
+		@media (min-width: $breakpoint-small-max + 1) and (max-width: $breakpoint-medium-max) { @content ; }
+	}
+}
+
+@mixin vertical-centre() {
+	top: 50%;
+	transform: translateY(-50%);
+}
+@mixin vertical-bottom() {
+	bottom: 0;
+}
+
+@mixin absolute-centre() {
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+}
+
+@mixin columns($columns:-1, $gutter: 2.66666666666667%, $column: '.column'){
+	@extend %clearfix;
+	overflow: hidden;
+	box-sizing: border-box;
+	#{$column} {
+		float: left;
+		margin-left: $gutter;
+		min-height:.1em;
+		@include layout_row_maths($columns, $gutter);
+		&:nth-of-type(#{$columns}n+1) {
+			clear: both;
+			margin-left: 0;
+		}
+	}
+	.clear {
+		clear: both;
+		margin-left: 0;
+	}
+
+}
+
+//////////////////////////////////////////////////
+// calculate the width of each column in a row
+
+@mixin layout_row_maths($columns:10, $gutter: 2.66666666666667%){
+	width: (100% - ($gutter * ($columns - 1) ) ) / $columns;
+}

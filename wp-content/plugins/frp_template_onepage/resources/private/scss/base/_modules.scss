@@ -1,0 +1,71 @@
+.module {
+	
+	&.row {
+		text-align: left;
+		padding-top: $unit-y;
+		padding-bottom: $unit-y;
+	}
+	
+	&.gallery {
+		@include columns($columns:2, $gutter: $column-spacing, $column:'.elm');
+		.elm {
+			margin-bottom: $unit-y;
+		}
+	}
+
+	&.hero, &.hero .inner {
+		text-align: center;
+	}
+	&.hero {
+		background-color: $hero-background;
+		.caption {
+			position: relative;
+			z-index: 1;
+		}
+		.image {
+			position: relative;
+			background: center no-repeat;
+			@extend %background-flood;
+			padding: (6 * $unit-y) 0;
+			&.overlay {
+				&:after {
+					content: '';
+					display: block;
+					@extend %flood;
+				}
+				&.dark {
+					.row-title,.row-subtitle {
+						color: $hero-overlay-dark-colour;
+					}
+					&:after {
+						background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgSAMAAGkAZ7BewkoAAAAASUVORK5CYII=); // black 40%, see http://px64.net/
+					}
+				}
+				&.light {
+					.row-title,.row-subtitle {
+						color: $hero-overlay-light-colour;
+					}
+					&:after {
+						background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP4vx8AAsABv3RFbnoAAAAASUVORK5CYII=); // white 75%, see http://px64.net/
+					}
+				}
+			}
+		}
+	}
+
+	&.video {
+		width: 100%;
+		height: 0;
+		padding-bottom: 56.25%;
+		position: relative;
+		margin-bottom: $unit-y;
+		background-color: $video-background;
+		iframe {
+			@extend %flood;
+			&[src*="youtube"], &[src*="youtu.be"]{
+				background: url('../images/icons/video.png') center / #{$unit-x * 2} #{$unit-y * 2} no-repeat;
+			}
+		}
+	}
+
+}

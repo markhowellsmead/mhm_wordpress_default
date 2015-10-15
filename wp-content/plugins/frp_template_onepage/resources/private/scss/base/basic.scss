@@ -1,0 +1,52 @@
+@import '../config/config';
+@import 'typography';
+@import 'modules';
+
+.print.logo {
+	display: none;
+}
+
+.inner {
+	@extend %clearfix;
+}
+
+.constrained {
+	.inner {
+		position: relative;
+		box-sizing: content-box;
+		max-width: $width-constraint;
+		margin-left: auto;
+		margin-right: auto;
+		padding-left: $unit-x;
+		padding-right: $unit-x;
+	}
+}
+
+.module.nav {
+	&.meta {
+		background-color: $meta-background;
+		box-shadow: inset 0px 0 6px rgba(0,0,0,.1);
+		color: $meta-colour;
+		a {
+			color: inherit;
+		}
+	}
+	&.meta, &.primary {
+		text-align: center;
+		li {
+			display: inline-block;
+		}
+	}
+	
+	&.primary {
+		.brand {
+			@extend %bgi;
+			font-size: 1em;
+			width: $unit-x * 3;
+			height: $unit-x * 3;
+			margin: 0 auto;
+			background: url('../images/icons/frappant_cube_128.png') center / contain no-repeat;
+		}
+	}
+}
+

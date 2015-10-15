@@ -1,0 +1,104 @@
+/**
+* Module definitions
+* Rules in this file only apply in browsers which support media queries
+*/
+
+@import '../config/config';
+@import 'module-gallery';
+
+.module {
+	
+	&.form {
+		@include frp-form-breakpoint();
+	}
+
+	&.hero {
+		
+		.image {
+			padding: (2 * $unit-y) 0;
+			background-size: cover;
+		}		
+		
+		.overlay.dark {
+			.row-title, .row-subtitle {
+				text-shadow: 0 0 2px $hero-overlay-dark-shadow;
+			}
+		}
+		.overlay.light {
+			.row-title, .row-subtitle {
+				text-shadow: 0 0 2px $hero-overlay-light-shadow;
+			}
+		}
+	}
+	
+}
+
+@include breakpoint(medium) {
+
+	.container {
+		padding-top: 150px;
+	}
+
+	.module {
+
+		&.hero {
+			background-color: $hero-background;
+
+			.caption {
+				position: absolute;
+				@include absolute-centre();
+			}
+
+			.image {
+				padding: (10 * $unit-y) 0;
+			}
+		}
+
+		&.nav {
+			&.primary {
+				.inner {
+					height: 4 * $unit-y;
+				}
+				.brand {
+					position: absolute;
+					left: $unit-x / 2;
+					@include vertical-centre();
+				}
+				.menu {
+					position: absolute;
+					right: $unit-x / 2;
+					@include vertical-centre();
+				}
+			}
+		}
+
+		&.toolbar {
+			background-color: $toolbar-background;
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			z-index: 100;
+		}
+	
+	}
+}
+
+@include breakpoint(mediumlarge) {
+
+	.module {
+
+		&.nav {
+			&.primary {
+				.brand {
+					position: absolute;
+					left: $unit-x;
+				}
+				.menu {
+					right: $unit-x;
+				}
+			}
+		}
+
+	}
+}

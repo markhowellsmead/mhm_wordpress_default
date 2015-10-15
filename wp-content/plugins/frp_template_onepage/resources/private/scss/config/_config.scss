@@ -1,0 +1,190 @@
+/////////////////////////////////////////////////
+// colours
+
+$black:			rgb(0,0,0);
+$white:			rgb(255,255,255);
+$darkgrey:	rgb(51,51,51);
+$grey:			rgb(84,84,84);
+$midgrey:		rgb(200,200,200);
+$lightgrey:	rgb(240,240,240);
+$red:				rgb(177,22,65);
+
+//////////////////////////////////////////////////
+// specific colour matching
+
+$background-primary: 		$white;
+$background-secondary: 	$lightgrey;
+
+$text-colour: 		$grey;
+$title-colour: 		$grey;
+$subtitle-colour: $grey;
+$link-colour:			$red;
+
+$page-background: $background-primary;
+
+$line-colour:			$grey;
+
+$nav-colour:			$grey;
+$nav-colour-act:	$red;
+
+$meta-colour:			$grey;
+$meta-background:	$lightgrey;
+
+$button-background: $red;
+$button-colour: 		$white;
+
+$hero-background: $midgrey;
+$hero-overlay-light-background: rgba(255,255,255,.75);
+$hero-overlay-light-colour: $grey;
+$hero-overlay-light-shadow: $white;
+$hero-overlay-dark-background:	rgba(0,0,0,.4);
+$hero-overlay-dark-colour:	$white;
+$hero-overlay-dark-shadow:	$grey;
+
+$toolbar-background: rgba($page-background, .85);
+
+$video-background: $midgrey;
+
+
+
+//////////////////////////////////////////////////
+// breakpoints
+
+$breakpoint-tiny-max: 				319px;
+$breakpoint-small-max: 				639px;
+$breakpoint-medium-max: 			767px;
+$breakpoint-mediumlarge-max: 	1279px;
+$breakpoint-large-max: 				1400px;
+
+//////////////////////////////////////////////////
+// typography
+// reference http://typecast.com/blog/a-more-modern-scale-for-web-typography
+
+$font-size: (
+	'print': 				12pt,
+	'default': 			1em,
+	'tiny': 				1em,
+	'small': 				1em,
+	'medium': 			1em,
+	'mediumlarge':	1em,
+	'large': 				1em,
+	'chewie': 			1em
+);
+
+$h1-size: (
+	'print': 				36pt,
+	'default': 			2em,
+	'tiny': 				2em,
+	'small': 				2em,
+	'medium': 			2.5em,
+	'mediumlarge': 	2.5em,
+	'large': 				3em,
+	'chewie': 			3em
+);
+
+$h2-size: (
+	'print': 				24pt,
+	'default': 			2.25em,
+	'tiny': 				1.625em,
+	'small': 				1.625em,
+	'medium': 			2em,
+	'mediumlarge': 	2em,
+	'large': 				2.25em,
+	'chewie': 			2.25em
+);
+
+$h3-size: (
+	'print': 				18pt,
+	'default': 			1.75em,
+	'tiny': 				1.375em,
+	'small': 				1.375em,
+	'medium': 			1.5em,
+	'mediumlarge': 	1.5em,
+	'large': 				1.75em,
+	'chewie': 			1.75em
+);
+
+$h4-size: (
+	'print': 				14pt,
+	'default': 			1.125em,
+	'tiny': 				1.125em,
+	'small': 				1.125em,
+	'medium': 			1.25em,
+	'mediumlarge': 	2em,
+	'large': 				1.125em,
+	'chewie': 			1.125em
+);
+
+$h5-size: (
+	'print': 				13pt,
+	'default': 			1.0625em,
+	'tiny': 				1.0625em,
+	'small': 				1.0625em,
+	'medium': 			1.0625em,
+	'mediumlarge': 	1.0625em,
+	'large': 				1.0625em,
+	'chewie': 			1.0625em
+);
+
+$h6-size: (
+	'print': 				10pt,
+	'default': 			1em,
+	'tiny': 				1em,
+	'small': 				1em,
+	'medium': 			1em,
+	'mediumlarge': 	1em,
+	'large': 				1em,
+	'chewie': 			1em
+);
+
+$meta-size: (
+	'print': 				10pt,
+	'default': 			0.875em,
+	'tiny': 				0.875em,
+	'small': 				0.9375em,
+	'medium': 			0.9375em,
+	'mediumlarge': 	0.875em,
+	'large': 				0.875em,
+	'chewie': 			0.875em
+);
+
+$line-height: (
+	'print': 				1.25em,
+	'default': 			1.25em,
+	'tiny': 				1.25em,
+	'small': 				1.25em,
+	'medium': 			1.375em,
+	'mediumlarge': 	1.375em,
+	'large': 				1.375em,
+	'chewie': 			1.375em
+);
+
+$base-font: 'Helvetica Neue', "HelveticaNeue", Helvetica, Arial, sans-serif;
+$title-font: 'HelveticaNeue-CondensedBlack', 'Arial Black', Gadget, sans-serif;
+$advanced-font: $base-font;
+$navigation-font: $title-font;
+
+$font-weight: 400;
+
+//////////////////////////////////////////////////
+// animation
+
+$transition-speed: 500ms;
+
+//////////////////////////////////////////////////
+// sizes
+
+$unit-x: 1.5em;
+$unit-y: 1.5em;
+$width-constraint: 45em;
+$width-constraint-print: 100%;
+
+$column-spacing: 2%;
+
+//////////////////////////////////////////////////
+// imports
+
+@import '/Library/Webserver/webroot/frappant_helpers/scss/basics';
+@import '/Library/Webserver/webroot/frappant_helpers/scss/form';
+@import 'mixins';
+@import 'silent';

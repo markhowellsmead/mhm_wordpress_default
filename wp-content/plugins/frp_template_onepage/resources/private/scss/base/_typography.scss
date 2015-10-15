@@ -1,0 +1,160 @@
+html, body {
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	min-width: 240px;
+	font-size: map-get($font-size, 'default');
+	line-height: map-get($line-height, 'default');
+}
+
+body {
+	text-align:center;
+	background-color: $page-background;
+	font-weight: $font-weight;
+	font-size: 1em;
+	font-family: $base-font;
+	-moz-font-feature-settings: “liga” on;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+	letter-spacing: 0.01em;
+	color: $text-colour;
+}
+
+.section-title {
+	@extend %section-title;
+}
+
+.section-subtitle {
+	@extend %section-subtitle;
+}
+
+.button {
+	@extend %button;
+}
+
+select {
+
+}
+
+.inline-nav {
+	@extend %inline-nav;
+}
+
+a {
+	color: $link-colour;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	@extend %title;
+}
+
+h1 {
+	font-size: map-get($h1-size, 'default');
+}
+
+h2 {
+	font-size: map-get($h2-size, 'default');
+}
+
+h3 {
+	font-size: map-get($h3-size, 'default');
+}
+
+h4 {
+	font-size: map-get($h4-size, 'default');
+}
+
+h5 {
+	font-size: map-get($h5-size, 'default');
+}
+
+h6 {
+	font-size: map-get($h6-size, 'default');
+}
+
+img	{
+	border: 0;
+	max-width: 100%;
+	height: auto;
+	vertical-align: middle;
+}
+
+blockquote {
+	@extend %infobox !optional;
+}
+
+p {
+	margin:0 0 $unit-y;
+}
+
+ul {
+	padding: 0;
+	margin:0 0 $unit-y $unit-x;
+}
+
+li {
+	padding: 0;
+	margin:0 0 $unit-y / 2;
+}
+
+table, td, th {
+	border-style: solid;
+}
+
+td, th {
+	padding: #{$unit-y / 4} #{$unit-x / 2};
+}
+
+th {
+	font-weight: bold;
+}
+
+svg { // https://css-tricks.com/gotchas-on-getting-svg-into-production/
+	pointer-events: none;
+}
+
+//////////////////////////////////////////////////
+// navigation
+
+.nav {
+	ul, li {
+		margin: 0;
+	}
+	a {
+		text-decoration: none;
+	}
+}
+
+//////////////////////////////////////////////////
+// modules
+
+.module {
+
+	&.nav {
+		&.primary {
+			font-family: $navigation-font;
+			padding: ($unit-y / 2) 0;
+			.menu li {
+				padding: $unit-y/4 $unit-x/8;
+			}
+		}
+		&.meta {
+			font-size: map-get($meta-size, 'default');
+			li {
+				padding: $unit-y/4 $unit-x/8;
+			}
+		}
+	}
+	
+	&.hero {
+		.row-title, .row-subtitle {
+			margin: 0;
+		}
+	}
+	
+	&.form {
+		@include frp-form-simple();
+	}
+}

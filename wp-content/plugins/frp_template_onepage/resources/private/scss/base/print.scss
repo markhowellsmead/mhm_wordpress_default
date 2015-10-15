@@ -1,0 +1,29 @@
+/**
+* Basic rules for print layout
+*
+* @since 	24/09/15
+*/
+
+@import '../config/config';
+
+html {
+	font-size: map-get($font-size, 'print');
+	line-height: map-get($line-height, 'print');
+}
+
+nav {
+	display: none;
+}
+
+.constrained {
+	.inner {
+		max-width: $width-constraint-print;
+	}
+}
+
+
+.module {
+	&.video {
+		display: none;
+	}
+}
