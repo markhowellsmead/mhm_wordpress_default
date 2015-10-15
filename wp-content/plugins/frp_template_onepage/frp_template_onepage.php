@@ -1,8 +1,8 @@
 <?php
 /*
-Plugin Name: 	One Page Template
+Plugin Name: 	!frappant - One Page Template configuration
 Plugin URI: 	#
-Description: 	Configuration for necessary files etc. 
+Description: 	Load necessary scripts and CSS files for a standard one page layout. Use in addition to the WordPress Theme “frp_wordpress_parent_simple” and your own Child Theme.
 Author: 			Mark Howells-Mead
 Version: 			1.0
 Author URI: 	http://www.frappant.ch/
