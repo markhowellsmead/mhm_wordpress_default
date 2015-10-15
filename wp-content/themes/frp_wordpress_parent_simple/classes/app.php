@@ -43,13 +43,14 @@ class App {
 
 		$this->initialize();
 
-		add_action('wp_head', array($this, 'add_app_icons'));
-		add_action('wp_head', array($this, 'add_favicon'));
-		add_action('wp_head', array($this, 'add_meta'));
-		add_action('wp_head', array($this, 'add_og_tags'));
+		add_action( 'wp_head', array(&$this, 'add_app_icons') );
+		add_action( 'wp_head', array(&$this, 'add_favicon') );
+		add_action( 'wp_head', array(&$this, 'add_meta') );
+		add_action( 'wp_head', array(&$this, 'add_og_tags') );
 
-		add_action( 'wp_enqueue_scripts', array(&$this, 'add_default_style') );
-
+		add_action( 'wp_enqueue_scripts', array(&$this, 'add_scripts') );
+		add_action( 'wp_enqueue_scripts', array(&$this, 'add_styles') );
+		
 		$this->remove_emoji_support();
 	}
 
@@ -125,14 +126,19 @@ class App {
 
 	//////////////////////////////////////////////////
 
-	public function add_default_style($file='', $media='all', $filekey=''){
+	public function add_styles(){
 		/**
 		 * Add appropriate LINK tags to the HTML output for the standard CSS
 		 * files in the parent theme resource folders.
 		 */
 		wp_enqueue_style( 'css-reset', $this->paths['parent_uri'] . '/resources/public/css/css-reset.css', null, $this->version, 'all');
 		wp_enqueue_style( 'wp-core', $this->paths['parent_uri'] . '/resources/public/css/core.css', null, $this->version, 'all');
+	}
 
+	//////////////////////////////////////////////////
+	
+	public function add_scripts(){
+		wp_enqueue_script( 'jquery', null, null, null, false ); // use jQuery from core
 	}
 
 	//////////////////////////////////////////////////
