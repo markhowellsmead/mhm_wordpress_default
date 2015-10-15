@@ -132,13 +132,13 @@ class App {
 		 * files in the parent theme resource folders.
 		 */
 		wp_enqueue_style( 'css-reset', $this->paths['parent_uri'] . '/resources/public/css/css-reset.css', null, $this->version, 'all');
-		wp_enqueue_style( 'wp-core', $this->paths['parent_uri'] . '/resources/public/css/core.css', null, $this->version, 'all');
+		wp_enqueue_style( 'wp-core', $this->paths['parent_uri'] . '/resources/public/css/core.css', array('css-reset'), $this->version, 'all');
 	}
 
 	//////////////////////////////////////////////////
 	
 	public function add_scripts(){
-		wp_enqueue_script( 'jquery', null, null, null, false ); // use jQuery from core
+		wp_enqueue_script( 'jquery' ); // use jQuery from core
 	}
 
 	//////////////////////////////////////////////////
