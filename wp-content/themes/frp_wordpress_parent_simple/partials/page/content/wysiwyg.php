@@ -1,6 +1,3 @@
-<?php
-// This template partial will be loaded only if Advanced Custom Fields is not available
-?>
 
 	<section class="module row wysiwyg">
 
